@@ -7,14 +7,14 @@ def home_page(request):
 		return redirect('/')
 	items = Item.objects.all()	
 	
-	item_pribadi = ''
-	if Item.objects.count() == 0:
-		item_pribadi = "yey, waktunya berlibur"
-	elif Item.objects.count() < 5:
-		item_pribadi = "sibuk tapi santai"
-	elif Item.objects.count() >= 5:
-		item_pribadi = "oh tidak"
+	#item_pribadi = ''
+	#if Item.objects.count() == 0:
+	#	item_pribadi = "yey, waktunya berlibur"
+	#elif Item.objects.count() < 5:
+	#	item_pribadi = "sibuk tapi santai"
+	#elif Item.objects.count() >= 5:
+	#	item_pribadi = "oh tidak"
 		
 
-	return render(request, 'home.html', {'items': items, 'item_pribadi' : item_pribadi})
+	return render(request, 'home.html', {'items': items})
 

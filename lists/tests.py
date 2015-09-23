@@ -32,7 +32,7 @@ class HomePageTest(TestCase):
 	def test_home_page_returns_correct_html(self):
 		request = HttpRequest()
 		response = home_page(request)
-		expected_html = render_to_string('home.html', {'item_pribadi' : 'yey, waktunya berlibur'})
+		expected_html = render_to_string('home.html')
 		self.assertEqual(response.content.decode(), expected_html)
 		self.assertTrue(response.content.startswith(b'<html>'))
 		self.assertIn(b'<title>Hi! ini andes</title>', response.content)
@@ -84,33 +84,33 @@ class HomePageTest(TestCase):
 		self.assertIn('itemey 1', response.content.decode())
 		self.assertIn('itemey 2', response.content.decode())
 
-	def test_fitur_komentar_zero(self):
-		request = HttpRequest()
-		response = home_page(request)
-		self.assertEqual(Item.objects.count(), 0)
-		self.assertIn("yey, waktunya berlibur", response.content.decode())
+	#def test_fitur_komentar_zero(self):
+	#	request = HttpRequest()
+	#	response = home_page(request)
+	#	self.assertEqual(Item.objects.count(), 0)
+	#	self.assertIn("yey, waktunya berlibur", response.content.decode())
 
-	def test_fitur_komentar_less_than_five(self):
-		Item.objects.create(text='item1')
-		Item.objects.create(text='item2')
+	#def test_fitur_komentar_less_than_five(self):
+	#	Item.objects.create(text='item1')
+	#	Item.objects.create(text='item2')
 
-		request = HttpRequest()
-		response = home_page(request)
+	#	request = HttpRequest()
+	#	response = home_page(request)
 
-		self.assertLess(Item.objects.count(), 5)
-		self.assertIn("sibuk tapi santai", response.content.decode())		
+	#	self.assertLess(Item.objects.count(), 5)
+	#	self.assertIn("sibuk tapi santai", response.content.decode())		
 	
-	def test_fitur_komentar_greater_five(self):
-		Item.objects.create(text='item1')
-		Item.objects.create(text='item2')
-		Item.objects.create(text='item3')
-		Item.objects.create(text='item4')
-		Item.objects.create(text='item5')
-		Item.objects.create(text='item6')
+	#def test_fitur_komentar_greater_five(self):
+	#	Item.objects.create(text='item1')
+	#	Item.objects.create(text='item2')
+	#	Item.objects.create(text='item3')
+	#	Item.objects.create(text='item4')
+	#	Item.objects.create(text='item5')
+	#	Item.objects.create(text='item6')
 
-		request = HttpRequest()
-		response = home_page(request)
+	#	request = HttpRequest()
+	#	response = home_page(request)
 
-		self.assertGreaterEqual(Item.objects.count(), 5)
-		self.assertIn("oh tidak", response.content.decode())
+	#	self.assertGreaterEqual(Item.objects.count(), 5)
+	#	self.assertIn("oh tidak", response.content.decode())
 
