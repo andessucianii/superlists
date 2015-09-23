@@ -42,12 +42,44 @@ class HomePageTest(TestCase):
 	def test_home_page_returns_correct_html(self):
 		request = HttpRequest()
 		response = home_page(request)
-		expected_html = render_to_string('home.html')
+		expected_html = render_to_string('home.html', {'item_pribadi': 'yey, waktunya berlibur'})
 		self.assertEqual(response.content.decode(), expected_html)
 		self.assertTrue(response.content.startswith(b'<html>'))
 		self.assertIn(b'<title>Hi! ini andes</title>', response.content)
 		self.assertTrue(response.content.strip().endswith(b'</html>'))
+	
+	def test_fitur_komentar_zero(self):
+		listnya_ = List.objects.create()
+		request = HttpRequest()
+		response = self.client.get('/lists/%d/' % listnya_.id,)
+		self.assertEqual(Item.objects.count(), 0)
+		self.assertIn("yey, waktunya berlibur", response.content.decode())
 
+	def test_fitur_komentar_less_than_five(self):
+		listnya_ = List.objects.create()
+		Item.objects.create(text='item1', list=listnya_)
+		Item.objects.create(text='item2',list=listnya_)
+
+		request = HttpRequest()
+		response = self.client.get('/lists/%d/' % (listnya_.id,))
+
+		self.assertTrue(response, self.assertLess(Item.objects.count(), 5))
+		self.assertIn("sibuk tapi santai", response.content.decode())
+
+	def test_fitur_komentar_greater_five(self):
+		listnya_ = List.objects.create()
+		Item.objects.create(text='item1',list=listnya_)
+		Item.objects.create(text='item2',list=listnya_)
+		Item.objects.create(text='item3',list=listnya_)
+		Item.objects.create(text='item4',list=listnya_)
+		Item.objects.create(text='item5',list=listnya_)
+		Item.objects.create(text='item6',list=listnya_)
+
+		request = HttpRequest()
+		response = self.client.get('/lists/%d/' % (listnya_.id,))
+
+		self.assertTrue(response, Item.objects.count() >= 5)
+		self.assertIn("oh tidak", response.content.decode())
 
 class NewListTest(TestCase):
 	
