@@ -1,9 +1,9 @@
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
 	def setUp(self):
 		self.browser = webdriver.Firefox()
@@ -20,10 +20,10 @@ class NewVisitorTest(LiveServerTestCase):
 	def test_can_start_a_list_and_retrieve_it_later(self):
 		self.browser.get(self.live_server_url)
 
-		self.assertIn('Hi! ini andes', self.browser.title)
+		self.assertIn('To-Do lists', self.browser.title)
 	
 		header_text = self.browser.find_element_by_tag_name('h1').text
-		self.assertIn('Start a new To-Do list', header_text)
+		self.assertIn('Your To-Do list', header_text)
 
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		self.assertEqual(
