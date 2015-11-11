@@ -44,9 +44,9 @@ class HomePageTest(TestCase):
 		response = home_page(request)
 		expected_html = render_to_string('home.html', {'item_pribadi': 'yey, waktunya berlibur'})
 		self.assertEqual(response.content.decode(), expected_html)
-		self.assertTrue(response.content.startswith(b'<html>'))
-		self.assertIn(b'<title>Hi! ini andes</title>', response.content)
-		self.assertTrue(response.content.strip().endswith(b'</html>'))
+		#self.assertTrue(response.content.startswith(b'<html>'))
+		#self.assertIn(b'<title>Hi! ini andes</title>', response.content)
+		#self.assertTrue(response.content.strip().endswith(b'</html>'))
 	
 	def test_fitur_komentar_zero(self):
 		listnya_ = List.objects.create()
